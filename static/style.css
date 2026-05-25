@@ -1,9 +1,8 @@
-section#main{
-  width: 500;
-  float: left;
-  margin: 0;
-  padding: 0;
-  display: inline;     
+html, body {
+    height:100%;
+    width:100%;
+    margin:0;
+    padding:0;
 }
 
 nav{    
@@ -16,5 +15,16 @@ nav{
 }
 
 body{
+    background-color: darkgrey;
+}
+
+.sidenav{
     background-color: black;
+    width: 200px;
+    height: 100%;
+}
+
+.words {
+    color:aliceblue;
+    text-decoration: none;
 }
