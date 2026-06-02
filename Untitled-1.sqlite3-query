@@ -1,0 +1,30 @@
+-- database: ./database.db
+INSERT INTO players (teamID, playername, height, position, playerimage, weight) VALUES
+(0, 'Liam Wilson', '198 cm', 'Outside Hitter', 'liam_wilson.jpg', '88 kg'),
+(0, 'Noah Taylor', '191 cm', 'Setter', 'noah_taylor.jpg', '80 kg'),
+(0, 'Ethan Brown', '203 cm', 'Middle Blocker', 'ethan_brown.jpg', '96 kg'),
+(0, 'Oliver Smith', '196 cm', 'Opposite Hitter', 'oliver_smith.jpg', '90 kg'),
+(0, 'Jack Martin', '188 cm', 'Libero', 'jack_martin.jpg', '75 kg'),
+(0, 'Lucas Harris', '201 cm', 'Middle Blocker', 'lucas_harris.jpg', '94 kg'),
+
+(1, 'Mason Clark', '194 cm', 'Outside Hitter', 'mason_clark.jpg', '86 kg'),
+(1, 'James Walker', '190 cm', 'Setter', 'james_walker.jpg', '79 kg'),
+(1, 'Benjamin Young', '202 cm', 'Middle Blocker', 'benjamin_young.jpg', '97 kg'),
+(1, 'Henry Scott', '197 cm', 'Opposite Hitter', 'henry_scott.jpg', '91 kg'),
+(1, 'Alexander King', '185 cm', 'Libero', 'alexander_king.jpg', '74 kg'),
+(1, 'Samuel Green', '200 cm', 'Middle Blocker', 'samuel_green.jpg', '95 kg'),
+
+(2, 'Ryan Cooper', '196 cm', 'Outside Hitter', 'ryan_cooper.jpg', '87 kg'),
+(2, 'Daniel Reed', '192 cm', 'Setter', 'daniel_reed.jpg', '81 kg'),
+(2, 'Tyler Morgan', '204 cm', 'Middle Blocker', 'tyler_morgan.jpg', '99 kg'),
+(2, 'Nathan Bell', '198 cm', 'Opposite Hitter', 'nathan_bell.jpg', '92 kg'),
+(2, 'Connor Lee', '187 cm', 'Libero', 'connor_lee.jpg', '76 kg'),
+(2, 'Aiden Ward', '201 cm', 'Middle Blocker', 'aiden_ward.jpg', '96 kg'),
+
+(3, 'Jacob Hall', '195 cm', 'Outside Hitter', 'jacob_hall.jpg', '85 kg'),
+(3, 'Thomas Adams', '189 cm', 'Setter', 'thomas_adams.jpg', '78 kg'),
+(3, 'William Carter', '203 cm', 'Middle Blocker', 'william_carter.jpg', '98 kg'),
+(3, 'Zachary Brooks', '197 cm', 'Opposite Hitter', 'zachary_brooks.jpg', '90 kg'),
+(3, 'Matthew Price', '186 cm', 'Libero', 'matthew_price.jpg', '75 kg'),
+(3, 'Dylan Foster', '202 cm', 'Middle Blocker', 'dylan_foster.jpg', '97 kg');
+
