@@ -1,4 +1,4 @@
-html, body {
+html, body, h1, h2, h3, h4, p {
     height:100%;
     width:100%;
     margin:0;
@@ -22,9 +22,12 @@ body{
     background-color: black;
     width: 200px;
     height: 100%;
+    text-decoration: none;
+    
 }
 
-.words {
+a {
     color:aliceblue;
     text-decoration: none;
+    line-height: 40px
 }

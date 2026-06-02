@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+
+<nav class="sidenav">
+  <ul>
+    <div class="words">
+    <a href="{{url_for('home')}}">Home</a>
+    <br>
+    <a href="{{url_for('players')}}">Players</a>
+    <br>
+    <a href="{{url_for('teams')}}">Teams</a>
+    </div> 
+  </ul>
+</nav>
+
+{% block body %}
+{% endblock %}
+
+
+</body>
+</html>
