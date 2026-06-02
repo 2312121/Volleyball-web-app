@@ -1,6 +1,16 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<p>players</p>
+<div class="player-grid">
+    {% for player in players %}
+        <a href="/player/{{ player['playerID'] }}" class="player-card">
+            <div class="player-info">
+                <h3>{{ player['playername'] }}</h3>
+                <p>{{ player['position'] }}</p>
+                <p>{{ player['height'] }}</p>
+            </div>
+        </a>
+    {% endfor %}
+</div>
 
 {% endblock %}

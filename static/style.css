@@ -31,3 +31,42 @@ a {
     text-decoration: none;
     line-height: 40px
 }
+
+.player-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.player-card {
+    display: block;
+    text-decoration: none;
+    color: white;
+    background: #1d4ed8;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.player-card:hover {
+    transform: scale(1.03);
+}
+
+.player-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.player-info {
+    padding: 15px;
+}
+
+.player-info h3 {
+    margin: 0;
+}
+
+.player-info p {
+    margin: 5px 0;
+}
