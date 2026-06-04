@@ -2,12 +2,12 @@
 {% block body %}
 
 <div class="player-grid">
-    {% for player in players %}
+    {% for player in results %}
         <a href="/player/{{ player['playerID'] }}" class="player-card">
             <div class="player-info">
-                <h3>{{ player['playername'] }}</h3>
-                <p>{{ player['position'] }}</p>
-                <p>{{ player['height'] }}</p>
+                <h3>{{ player[2] }}</h3>
+                <p>{{ player[4] }}</p>
+                <p>{{ player[3] }}</p>
             </div>
         </a>
     {% endfor %}

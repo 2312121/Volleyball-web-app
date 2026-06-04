@@ -27,7 +27,10 @@ def home():
 @app.route("/players")
 def players():
     #Do query get results back send to template
-    return render_template("players.html")
+    cursor = get_db().cursor()
+    cursor.execute("SELECT * FROM players")
+    results = cursor.fetchall()
+    return render_template("players.html", results = results)
 
 #links my team page to my python 
 @app.route("/teams")
