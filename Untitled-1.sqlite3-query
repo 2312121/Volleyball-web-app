@@ -28,3 +28,6 @@ INSERT INTO players (teamID, playername, height, position, playerimage, weight) 
 (3, 'Matthew Price', '186 cm', 'Libero', 'matthew_price.jpg', '75 kg'),
 (3, 'Dylan Foster', '202 cm', 'Middle Blocker', 'dylan_foster.jpg', '97 kg');
 
+
+SELECT * FROM players JOIN teams ON players.teamID=teams.teamID;
+
