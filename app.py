@@ -38,6 +38,5 @@ def ladder():
     return render_template("ladder.html")
 
 
-
 if __name__ == "__main__":
     app.run(debug=True)

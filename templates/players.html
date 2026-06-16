@@ -9,6 +9,10 @@
                 <p>{{ player[4] }}</p>
                 <p>{{ player[8] }}</p>
             </div>
+
+                <img class="player-image"
+     src="{{ url_for('static', filename='images/' + player[5]) }}">
+
         </a>
     {% endfor %}
 </div>
