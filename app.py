@@ -33,9 +33,9 @@ def players():
     return render_template("players.html", results = results)
 
 #links my team page to my python 
-@app.route("/teams")
-def teams():
-    return render_template("teams.html")
+@app.route("/ladder")
+def ladder():
+    return render_template("ladder.html")
 
 
 
