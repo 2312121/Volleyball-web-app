@@ -31,3 +31,34 @@ INSERT INTO players (teamID, playername, height, position, playerimage, weight) 
 
 SELECT * FROM players JOIN teams ON players.teamID=teams.teamID;
 
+UPDATE teams
+SET wins = 14,
+    loses = 2,
+    draws = 0,
+    "for" = 46,
+    against = 12
+WHERE teamID = 0;
+
+UPDATE teams
+SET wins = 11,
+    loses = 5,
+    draws = 0,
+    "for" = 39,
+    against = 21
+WHERE teamID = 1;
+
+UPDATE teams
+SET wins = 7,
+    loses = 9,
+    draws = 0,
+    "for" = 28,
+    against = 33
+WHERE teamID = 2;
+
+UPDATE teams
+SET wins = 0,
+    loses = 16,
+    draws = 0,
+    "for" = 10,
+    against = 48
+WHERE teamID = 3;
