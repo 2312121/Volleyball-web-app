@@ -1,5 +1,42 @@
 {% extends "layout.html" %}
 {% block body %}
 
+<h1>Ladder</h1>
+
+<table class="ladder-table">
+
+    <tr>
+        <th>Pos</th>
+        <th>Team</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>For</th>
+        <th>Against</th>
+        <th>Diff</th>
+    </tr>
+
+    {% for teams in results %}
+
+    <tr>
+
+        <td>{{ loop.index }}</td>
+
+        <td class="team-cell">
+
+            {{ teams[1] }}
+
+        </td>
+
+        <td>{{ teams[3] }}</td>
+        <td>{{ teams[4] }}</td>
+        <td>{{ teams[5] }}</td>
+        <td>{{ teams[6] }}</td>
+        <td>{{ teams[5]-teams[6] }}</td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
 
 {% endblock %}

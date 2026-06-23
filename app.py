@@ -32,10 +32,14 @@ def players():
     results = cursor.fetchall()
     return render_template("players.html", results = results)
 
-#links my team page to my python 
+#links my ladder page to my python and creates the ladder table
 @app.route("/ladder")
 def ladder():
-    return render_template("ladder.html")
+
+    cursor = get_db().cursor()
+    cursor.execute("""SELECT * FROM teams ORDER BY wins DESC, ("for" - against) DESC """)
+    results = cursor.fetchall()
+    return render_template("ladder.html", results = results)
 
 
 if __name__ == "__main__":
