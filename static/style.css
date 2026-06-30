@@ -1,6 +1,4 @@
 html, body, h1, h2, h3, h4, p {
-    height:100%;
-    width:100%;
     margin:0;
     padding:0;
 }
@@ -15,7 +13,7 @@ nav{
 }
 
 body{
-    background-color: darkgrey;
+    background-color: lightgrey;
 }
 
 .sidenav{
@@ -80,4 +78,28 @@ a {
     bottom: 0;
     height: 180px;
     left: 140px
+}
+
+.ladder-table {
+    margin-left: 220px; 
+    margin-top: 20px;
+    width: calc(100% - 240px);
+    border-collapse: collapse;
+    background: white;
+}
+
+.ladder-table th, .ladder-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+}
+
+.ladder-table th {
+    background-color: lightgrey;
+    color: black;
+}
+
+
+.team-cell {
+    text-align: left;
 }
