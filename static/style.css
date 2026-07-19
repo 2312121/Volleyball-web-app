@@ -44,7 +44,6 @@ a {
     display: block;
     text-decoration: none;
     color: white;
-    background: #1d4ed8;
     border-radius: 15px;
     overflow: hidden;
     transition: transform 0.2s ease;
@@ -89,7 +88,7 @@ a {
 }
 
 .ladder-table th, .ladder-table td {
-    border: 1px solid #ccc;
+    border: 1px solid lightgrey;
     padding: 12px;
     text-align: center;
 }
@@ -99,7 +98,44 @@ a {
     color: black;
 }
 
-
 .team-cell {
     text-align: left;
+}
+
+.team-christchurch-spikers {
+    background-color: #0066cc;
+}
+
+.team-christchurch-spikers:hover{
+    background-color: #01468c;
+}
+
+.team-canterbury-crushers {
+    background-color: #d62828;
+}
+
+.team-canterbury-crushers:hover{
+    background-color:#8e1a1a;
+}
+
+.team-southern-aces {
+    background-color: #2a9d8f;
+}
+
+.team-southern-aces:hover{
+    background-color: #1c675e;
+}
+
+.team-kiwi-blockers {
+    background-color: #6a0dad;
+}
+
+.team-kiwi-blockers:hover {
+    background-color: #480875;
+}
+
+.team-logo {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
 }

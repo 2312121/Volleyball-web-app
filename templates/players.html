@@ -3,7 +3,7 @@
 
 <div class="player-grid">
     {% for player in results %}
-        <a href="/player/{{ player['playerID'] }}" class="player-card">
+        <a href="/player/{{ player['playerID'] }}" class="player-card team-{{ player[8]|lower|replace(' ', '-') }}">
             <div class="player-info">
                 <h3>{{ player[2] }}</h3>
                 <p>{{ player[4] }}</p>

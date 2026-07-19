@@ -7,6 +7,7 @@
 
     <tr>
         <th>Pos</th>
+        <th></th>
         <th>Team</th>
         <th>Wins</th>
         <th>Losses</th>
@@ -21,11 +22,16 @@
 
         <td>{{ loop.index }}</td>
 
-        <td class="team-cell">
+        
+    <td>
+        <img
+            src="{{ url_for('static', filename='images/' + teams[2]) }}"
+            class="team-logo"
+            alt="{{ teams[1] }}">
+    </td>
 
-            {{ teams[1] }}
 
-        </td>
+        <td>{{ teams[1] }}</td>
 
         <td>{{ teams[3] }}</td>
         <td>{{ teams[4] }}</td>
