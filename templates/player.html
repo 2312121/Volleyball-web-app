@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="player-profile">
+
+    <img src="{{ url_for('static', filename='images/' + player[5]) }}" class="profile-image">
+
+    <div class="profile-info">
+        <h1>{{ player[2] }}</h1>
+
+        <p><strong>Team:</strong> {{ player[8] }}</p>
+        <p><strong>Position:</strong> {{ player[4] }}</p>
+        <p><strong>Height:</strong> {{ player[3] }} cm </p>
+        <p><strong>Weight:</strong> {{ player[6] }} kg </p>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -28,7 +28,7 @@ def home():
 def players():
     #Do query get results back send to template
     cursor = get_db().cursor()
-    cursor.execute("SELECT * FROM players JOIN teams ON players.teamID=teams.teamID")
+    cursor.execute("SELECT * FROM players JOIN teams ON players.teamID=teams.teamID ORDER BY height DESC")
     results = cursor.fetchall()
     return render_template("players.html", results = results)
 
@@ -40,6 +40,17 @@ def ladder():
     results = cursor.fetchall()
     print(results)
     return render_template("ladder.html", results = results)
+
+@app.route("/player/<int:playerID>")
+def player(playerID):
+
+    cursor = get_db().cursor()
+
+    cursor.execute("""
+        SELECT * FROM players JOIN teams ON players.teamID = teams.teamID WHERE playerID = ? """, (playerID,))
+    player = cursor.fetchone()
+
+    return render_template("player.html", player=player)
 
 
 if __name__ == "__main__":
