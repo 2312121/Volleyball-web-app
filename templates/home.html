@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block body %}
 
-<a href="{{ url_for('spikers_article') }}" class="hero-news">
+<div class="page-content">
+
+    <a href="{{ url_for('spikers_article') }}" class="hero-news">
 
         <img src="{{ url_for('static', filename='images/16-0.png') }}"
              class="hero-image">
@@ -19,6 +21,5 @@
     </a>
 
 </div>
-
 
 {% endblock %}

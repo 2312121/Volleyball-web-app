@@ -53,6 +53,7 @@ def player(playerID):
 
     return render_template("player.html", player=player)
 
+#for home page article
 @app.route("/news/spikers-16-0")
 def spikers_article():
     return render_template("spikers_article.html")
