@@ -41,6 +41,7 @@ def ladder():
     print(results)
     return render_template("ladder.html", results = results)
 
+#links my player page for each individual player to my python and creates the ladder table
 @app.route("/player/<int:playerID>")
 def player(playerID):
 
