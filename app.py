@@ -28,7 +28,7 @@ def home():
 def players():
     #Do query get results back send to template
     cursor = get_db().cursor()
-    cursor.execute("SELECT * FROM players JOIN teams ON players.teamID=teams.teamID ORDER BY height DESC")
+    cursor.execute("SELECT * FROM players JOIN teams ON players.teamID=teams.teamID ORDER BY weight DESC")
     results = cursor.fetchall()
     return render_template("players.html", results = results)
 

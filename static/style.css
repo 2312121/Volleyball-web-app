@@ -103,19 +103,18 @@ a {
 }
 
 .team-christchurch-spikers {
-    background-color: #0066cc;
-}
-
-.team-christchurch-spikers:hover{
-    background-color: #01468c;
-}
-
-.team-canterbury-crushers {
     background-color: #d62828;
 }
 
-.team-canterbury-crushers:hover{
+.team-christchurch-spikers:hover{
     background-color:#8e1a1a;
+}
+
+.team-canterbury-crushers {
+    background-color: #0066cc;}
+
+.team-canterbury-crushers:hover{
+    background-color: #01468c;
 }
 
 .team-southern-aces {
@@ -127,11 +126,11 @@ a {
 }
 
 .team-kiwi-blockers {
-    background-color: #6a0dad;
+    background-color: rgb(189, 192, 22);
 }
 
 .team-kiwi-blockers:hover {
-    background-color: #480875;
+    background-color: rgb(141, 144, 16);
 }
 
 .team-logo {
