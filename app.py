@@ -6,6 +6,13 @@ DATABASE = 'database.db'
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = "MySecretKey"
+
+# these are stored server side when hosted. But this is the LEAST secure login method
+# hard coded username and passwords to access the 'admin" part of the site 
+USERNAME = "admin"
+PASSWORD = "admin"
+
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -21,7 +28,9 @@ def close_connection(exception):
 #Links my python to my home html
 @app.route("/")
 def home():
+    print("hello world?")
     return render_template('home.html')
+
 
 #links my python to my players page
 @app.route("/players")
@@ -63,22 +72,8 @@ def spikers_article():
 def page_not_found(e):
     return render_template("404.html"), 404
 
-#using sessions rquire we set a random secret key
-app.config['SECRET_KEY'] = "MySecretKey"
-
-# these are stored server side when hosted. But this is the LEAST secure login method
-# hard coded username and passwords to access the 'admin" part of the site 
-USERNAME = "admin"
-PASSWORD = "admin"
-
-#routes go here
-#this is the route taken if we GET from the home page
-@app.get('/')
-def index():
-    return render_template('index.html')
-
 #this route acccepts get AND posts
-@app.route('/', methods=["GET","POST"])
+@app.route('/login', methods=["GET","POST"])
 def index_post():
     #if we are posting to the route do this stuff
     if request.method == "POST":
@@ -89,16 +84,22 @@ def index_post():
         if username == USERNAME and password == PASSWORD:
             #we successfully logged in
             #store the username in the session- it's a dictionary that is visible everywhere
-            #for the entire time this user has the app open in browser- clears wehn the close the browser
+            #for the entire time this user has the app open in browser- clears when the close the browser
             session['username'] = username
-            return redirect("admin")
-        #it can be used in the route without having to send it as it is visible in the session
-    #regardless of whether we get OR post we render a template
-    return render_template('index.html')
+            return redirect("/index")
+        else:
+            return render_template("login.html", error="Incorrect username or password")
+
+    return render_template("login.html")
 
 @app.route("/admin")
 def admin():
+
+    if "username" not in session:
+        return redirect("/login")
+
     return render_template("admin.html")
+
 
 
 if __name__ == "__main__":
