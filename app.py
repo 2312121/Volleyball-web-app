@@ -1,6 +1,6 @@
 import sqlite3
 
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, session, redirect, url_for, request
 
 DATABASE = 'database.db'
 
@@ -57,6 +57,48 @@ def player(playerID):
 @app.route("/news/spikers-16-0")
 def spikers_article():
     return render_template("spikers_article.html")
+
+#error page
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+#using sessions rquire we set a random secret key
+app.config['SECRET_KEY'] = "MySecretKey"
+
+# these are stored server side when hosted. But this is the LEAST secure login method
+# hard coded username and passwords to access the 'admin" part of the site 
+USERNAME = "admin"
+PASSWORD = "admin"
+
+#routes go here
+#this is the route taken if we GET from the home page
+@app.get('/')
+def index():
+    return render_template('index.html')
+
+#this route acccepts get AND posts
+@app.route('/', methods=["GET","POST"])
+def index_post():
+    #if we are posting to the route do this stuff
+    if request.method == "POST":
+        #get the username from the form
+        username = request.form['username']
+        password = request.form['password']
+        #check them here
+        if username == USERNAME and password == PASSWORD:
+            #we successfully logged in
+            #store the username in the session- it's a dictionary that is visible everywhere
+            #for the entire time this user has the app open in browser- clears wehn the close the browser
+            session['username'] = username
+            return redirect("admin")
+        #it can be used in the route without having to send it as it is visible in the session
+    #regardless of whether we get OR post we render a template
+    return render_template('index.html')
+
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
 
 
 if __name__ == "__main__":

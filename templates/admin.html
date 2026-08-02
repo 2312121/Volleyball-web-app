@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Display the admin route only if logged in-->
+    {% if session["username"] == "admin" %}
+        <h1>Welcome To My Site {{session['username']}}</h1>
+    {% else %}
+        <h1>You are not logged in</h1>
+    {% endif %}
+{% endblock %}
