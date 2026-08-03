@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = "MySecretKey"
 # these are stored server side when hosted. But this is the LEAST secure login method
 # hard coded username and passwords to access the 'admin" part of the site 
 USERNAME = "admin"
-PASSWORD = "password"
+PASSWORD = "admin"
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -74,7 +74,7 @@ def page_not_found(e):
 
 #this route acccepts get AND posts
 @app.route('/login', methods=["GET","POST"])
-def index_post():
+def login():
     #if we are posting to the route do this stuff
     if request.method == "POST":
         #get the username from the form
@@ -86,7 +86,7 @@ def index_post():
             #store the username in the session- it's a dictionary that is visible everywhere
             #for the entire time this user has the app open in browser- clears when the close the browser
             session['username'] = username
-            return redirect("/login.html")
+            return redirect("/admin")
         else:
             return render_template("login.html", error="Incorrect username or password")
 
@@ -95,7 +95,10 @@ def index_post():
 @app.route("/admin")
 def admin():
 
-    if "username" not in session:
+    print(session["username"])
+
+    if session.get("username") != "admin":
+        print("Not logged in")
         return redirect("/login")
 
     return render_template("admin.html")
