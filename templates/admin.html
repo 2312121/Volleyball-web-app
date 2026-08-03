@@ -2,10 +2,11 @@
 {% block content %}
 <!-- Display the admin route only if logged in-->
     {% if session["username"] == "admin" %}
-    <div class="admin-style">
-        <h1>Welcome To My Site {{session['username']}}</h1>
-    </div>
     {% else %}
         <h1>You are not logged in</h1>
     {% endif %}
+
+    <div class="admin-style">
+        <h1>Welcome To My Site {{session['username']}}</h1>
+    </div>
 {% endblock %}

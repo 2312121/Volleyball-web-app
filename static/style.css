@@ -310,6 +310,8 @@ a {
     border-radius:15px;
 }
 
-.admin-style{
-    margin-left: 225px
+.admin-style h1{
+    margin-left: 225px;
+    color:#0066cc;
+    size: 200px
 }

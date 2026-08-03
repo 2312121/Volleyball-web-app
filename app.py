@@ -11,7 +11,7 @@ app.config['SECRET_KEY'] = "MySecretKey"
 # these are stored server side when hosted. But this is the LEAST secure login method
 # hard coded username and passwords to access the 'admin" part of the site 
 USERNAME = "admin"
-PASSWORD = "admin"
+PASSWORD = "password"
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -86,7 +86,7 @@ def index_post():
             #store the username in the session- it's a dictionary that is visible everywhere
             #for the entire time this user has the app open in browser- clears when the close the browser
             session['username'] = username
-            return redirect("/index")
+            return redirect("/login.html")
         else:
             return render_template("login.html", error="Incorrect username or password")
 
