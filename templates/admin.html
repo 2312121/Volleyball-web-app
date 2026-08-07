@@ -1,10 +1,16 @@
 {% extends "layout.html" %}
 {% block body %}
+
     <div class = "right">
-<!-- Display the admin route only if logged in-->
+
         <h1>you are logged in</h1>
 
+        <a href="{{ url_for('logout') }}">Logout</a>
 
     </div>
+
+
+
+
 
 {% endblock %}

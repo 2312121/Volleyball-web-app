@@ -92,16 +92,23 @@ def login():
 
     return render_template("login.html")
 
+
 @app.route("/admin")
 def admin():
 
-    print(session["username"])
+    print(session)
 
     if session.get("username") != "admin":
         print("Not logged in")
         return redirect("/login")
 
     return render_template("admin.html")
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("login"))
 
 
 
