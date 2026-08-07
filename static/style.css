@@ -319,3 +319,7 @@ a {
 .right{
     margin-left: 225px;
 }
+
+.logout a{
+    color:black;
+}
