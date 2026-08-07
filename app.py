@@ -96,7 +96,6 @@ def login():
 @app.route("/admin")
 def admin():
 
-    print(session)
 
     if session.get("username") != "admin":
         print("Not logged in")
