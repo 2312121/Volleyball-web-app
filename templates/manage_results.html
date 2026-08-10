@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="admin-form">
+
+    <a href="{{ url_for('admin') }}" class="back-button">
+    Back
+    </a>
+
+    <h1>Add Match Result</h1>
+
+    <form method="POST">
+
+        <label>Home Team</label>
+
+        <select name="homeTeam" required>
+            {% for team in teams %}
+                <option value="{{ team[0] }}">
+                    {{ team[1] }}
+                </option>
+            {% endfor %}
+        </select>
+
+
+        <label>Away Team</label>
+
+        <select name="awayTeam" required>
+            {% for team in teams %}
+                <option value="{{ team[0] }}">
+                    {{ team[1] }}
+                </option>
+            {% endfor %}
+        </select>
+
+
+        <label>Home Team Sets</label>
+
+        <input
+            type="number"
+            name="homeSets"
+            min="0"
+            max="3"
+            required
+        >
+
+
+        <label>Away Team Sets</label>
+
+        <input
+            type="number"
+            name="awaySets"
+            min="0"
+            max="3"
+            required
+        >
+
+
+        <button type="submit">
+            Add Result
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}f

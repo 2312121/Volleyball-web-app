@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="admin-form">
+
+    <a href="{{ url_for('admin') }}" class="back-button">
+    Back
+    </a>
+
+    <h1>Add News Article</h1>
+
+    <form method="POST">
+
+        <label>Article Title</label>
+
+        <input
+            type="text"
+            name="title"
+            placeholder="Article title"
+            required
+        >
+
+
+        <label>Category</label>
+
+        <input
+            type="text"
+            name="category"
+            placeholder="MATCH REPORT"
+            required
+        >
+
+
+        <label>Short Description</label>
+
+        <textarea
+            name="description"
+            placeholder="Short description shown on the home page"
+            required
+        ></textarea>
+
+
+        <label>Article Content</label>
+
+        <textarea
+            name="content"
+            rows="10"
+            placeholder="Write your article here..."
+            required
+        ></textarea>
+
+
+        <label>Image Filename</label>
+
+        <input
+            type="text"
+            name="image"
+            placeholder="16-0.png"
+            required
+        >
+
+
+        <button type="submit">
+            Publish Article
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

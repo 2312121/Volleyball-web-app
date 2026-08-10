@@ -25,10 +25,16 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-#Links my python to my home html
+#Links my python to my home html and auto loads articles
 @app.route("/")
 def home():
-    return render_template('home.html')
+
+    cursor = get_db().cursor()
+    cursor.execute("""SELECT * FROM news ORDER BY newsID DESC LIMIT 1""")
+
+    article = cursor.fetchone()
+
+    return render_template("home.html", article=article)
 
 
 #links my python to my players page
@@ -61,10 +67,6 @@ def player(playerID):
 
     return render_template("player.html", player=player)
 
-#for home page article
-@app.route("/news/spikers-16-0")
-def spikers_article():
-    return render_template("spikers_article.html")
 
 #error page
 @app.errorhandler(404)
@@ -145,6 +147,76 @@ def add_player():
     teams = cursor.fetchall()
 
     return render_template("add_player.html", teams=teams)
+
+
+
+@app.route("/admin/results", methods=["GET", "POST"])
+def manage_results():
+
+    #Make sure only the admin can access this
+    if session.get("username") != "admin":
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+
+        homeTeam = request.form["homeTeam"]
+        awayTeam = request.form["awayTeam"]
+        homeSets = request.form["homeSets"]
+        awaySets = request.form["awaySets"]
+
+        db = get_db()
+
+        db.execute("""
+            INSERT INTO matches
+            (homeTeam, awayTeam, homeSets, awaySets)
+            VALUES (?, ?, ?, ?)
+        """, (homeTeam, awayTeam, homeSets, awaySets))
+
+        db.commit()
+
+        return redirect(url_for("manage_results"))
+
+    #Get all teams for the dropdown menus
+    cursor = get_db().cursor()
+    cursor.execute("SELECT * FROM teams")
+    teams = cursor.fetchall()
+
+    return render_template("manage_results.html", teams=teams)
+
+
+@app.route("/admin/news", methods=["GET", "POST"])
+def manage_news():
+
+    # Only allow the admin to access this page
+    if session.get("username") != "admin":
+        return redirect(url_for("login"))
+
+    # If the admin submits the form
+    if request.method == "POST":
+
+        title = request.form["title"]
+        category = request.form["category"]
+        description = request.form["description"]
+        content = request.form["content"]
+        image = request.form["image"]
+
+        db = get_db()
+
+        db.execute("""INSERT INTO news (title, category, description, content, image)
+            VALUES (?, ?, ?, ?, ?)
+        """, (
+            title,
+            category,
+            description,
+            content,
+            image
+        ))
+
+        db.commit()
+
+        return redirect(url_for("manage_news"))
+
+    return render_template("manage_news.html")
 
 
 

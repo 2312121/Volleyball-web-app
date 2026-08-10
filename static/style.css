@@ -370,3 +370,64 @@ a {
 .logout-card p {
     color: #ccc;
 }
+
+.admin-form {
+    margin-left: 225px;
+    padding: 40px;
+    max-width: 700px;
+}
+
+.admin-form h1 {
+    margin-bottom: 30px;
+}
+
+.admin-form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+.admin-form input, .admin-form textarea, .admin-form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.admin-form textarea {
+    resize: vertical;
+}
+
+.admin-form button {
+    margin-top: 25px;
+    padding: 14px 25px;
+    background: #1d4ed8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.admin-form button:hover {
+    background: #1740a8;
+}
+
+.back-button {
+    display: inline-block;
+    background: #1d4ed8;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-bottom: 25px;
+    transition: background-color .2s ease;
+}
+
+.back-button:hover {
+    background: #1740a8;
+}
