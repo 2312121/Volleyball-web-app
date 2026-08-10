@@ -28,7 +28,6 @@ def close_connection(exception):
 #Links my python to my home html
 @app.route("/")
 def home():
-    print("hello world?")
     return render_template('home.html')
 
 
@@ -108,6 +107,44 @@ def admin():
 def logout():
     session.clear()
     return redirect(url_for("login"))
+
+@app.route("/admin/player/add", methods=["GET", "POST"])
+def add_player():
+
+    #Make sure the user is logged in
+    if session.get("username") != "admin":
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+
+        playername = request.form["playername"]
+        teamID = request.form["teamID"]
+        height = request.form["height"]
+        position = request.form["position"]
+        playerimage = request.form["playerimage"]
+        weight = request.form["weight"]
+
+        db = get_db()
+
+        db.execute("""INSERT INTO players (teamID, playername, height, position, playerimage, weight) 
+                   VALUES (?, ?, ?, ?, ?, ?)""", (
+            teamID,
+            playername,
+            height,
+            position,
+            playerimage,
+            weight,
+        ))
+
+        db.commit()
+        return redirect(url_for("admin"))
+
+    #Get teams for the dropdown
+    cursor = get_db().cursor()
+    cursor.execute("SELECT * FROM teams")
+    teams = cursor.fetchall()
+
+    return render_template("add_player.html", teams=teams)
 
 
 

@@ -1,19 +1,36 @@
 {% extends "layout.html" %}
 {% block body %}
 
-    <div class = "right">
+<div class="admin-dashboard">
 
-        <h1>you are logged in</h1>
+    <h1>Admin Dashboard</h1>
 
-        <div class="logout">
-            <a href="{{ url_for('logout') }}"> Logout </a>
-        </div>
+    <p>Welcome, {{ session["username"] }}.</p>
 
+    <div class="admin-grid">
+
+        <a href="{{ url_for('add_player') }}" class="admin-card">
+            <h2>Add Player</h2>
+            <p>Add a new player to the database.</p>
+        </a>
+
+        <a href="{{ url_for('manage_results') }}" class="admin-card">
+            <h2>Match Results</h2>
+            <p>Add and manage volleyball results.</p>
+        </a>
+
+        <a href="{{ url_for('manage_news') }}" class="admin-card">
+            <h2>News Articles</h2>
+            <p>Add and manage articles on the home page.</p>
+        </a>
+
+        <a href="{{ url_for('logout') }}" class="admin-card logout-card">
+            <h2>Logout</h2>
+            <p>Log out of the admin account.</p>
+        </a>
 
     </div>
 
-
-
-
+</div>
 
 {% endblock %}

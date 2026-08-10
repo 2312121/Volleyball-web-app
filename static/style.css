@@ -316,10 +316,57 @@ a {
     size: 200px
 }
 
-.right{
-    margin-left: 225px;
-}
-
 .logout a{
     color:black;
+}
+
+.admin-dashboard {
+    margin-left: 225px;
+    padding: 40px;
+}
+
+.admin-dashboard h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-top: 30px;
+    max-width: 900px;
+}
+
+.admin-card {
+    background: white;
+    color: #222;
+    padding: 30px;
+    border-radius: 15px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,.15);
+    transition: transform .2s ease,
+                box-shadow .2s ease;
+}
+
+.admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0,0,0,.2);
+}
+
+.admin-card h2 {
+    margin-bottom: 10px;
+}
+
+.admin-card p {
+    color: #555;
+}
+
+.logout-card {
+    background: #222;
+    color: white;
+}
+
+.logout-card p {
+    color: #ccc;
 }

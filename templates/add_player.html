@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="admin-form">
+
+    <h1>Add Player</h1>
+
+    <form method="POST">
+
+        <label>Player Name</label>
+        <input type="text" name="playername" required>
+
+
+        <label>Team</label>
+
+        <select name="teamID" required>
+
+            {% for team in teams %}
+
+                <option value="{{ team[0] }}">
+                    {{ team[1] }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <label>Height</label>
+        <input type="text" name="height">
+
+
+        <label>Position</label>
+        <input type="text" name="position">
+
+
+        <label>Player Image</label>
+        <input type="text"
+               name="playerimage"
+               placeholder="example.png">
+
+
+        <label>Weight</label>
+        <input type="text" name="weight">
+
+
+        <button type="submit">
+            Add Player
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
