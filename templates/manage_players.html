@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="admin-form">
+
+    <a href="{{ url_for('admin') }}" class="back-button">
+        Back
+    </a>
+
+    <h1>Remove Players</h1>
+
+    {% for player in players %}
+
+    <div class="delete-row">
+
+        <div>
+            <strong>{{ player[2] }}</strong>
+            <br>
+            <small>{{ player[8] }}</small>
+        </div>
+
+        <form method="POST"
+              action="{{ url_for('delete_player', playerID=player[0]) }}">
+
+            <button type="submit" class="delete-button">
+                Delete
+            </button>
+
+        </form>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

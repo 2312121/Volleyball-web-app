@@ -14,6 +14,11 @@
             <p>Add a new player to the database.</p>
         </a>
 
+         <a href="{{ url_for('manage_players') }}" class="admin-card">
+            <h2>Remove Player</h2>
+            <p>Remove a player from the database.</p>
+        </a>
+
         <a href="{{ url_for('manage_results') }}" class="admin-card">
             <h2>Match Results</h2>
             <p>Add and manage volleyball results.</p>
@@ -22,6 +27,11 @@
         <a href="{{ url_for('manage_news') }}" class="admin-card">
             <h2>News Articles</h2>
             <p>Add and manage articles on the home page.</p>
+        </a>
+
+        <a href="{{ url_for('manage_articles') }}" class="admin-card">
+            <h2>Remove Article</h2>
+            <p>Remove an article from the home page.</p>
         </a>
 
         <a href="{{ url_for('logout') }}" class="admin-card logout-card">

@@ -431,3 +431,30 @@ a {
 .back-button:hover {
     background: #1740a8;
 }
+.delete-row {
+    background: white;
+    padding: 18px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+
+.delete-button {
+    background: #d62828;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+
+    transition: background-color .2s ease;
+}
+
+.delete-button:hover {
+    background: #8e1a1a;
+}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="article">
+
+    <a href="{{ url_for('home') }}" class="back-button">
+        Back to Home
+    </a>
+
+    <img
+        src="{{ url_for('static', filename='images/' + article[4]) }}"
+        class="article-image">
+
+    <span class="category">
+        {{ article[2] }}
+    </span>
+
+    <h1>
+        {{ article[5] }}
+    </h1>
+
+    <p class="article-info">
+        {{ article[1] }}
+    </p>
+
+    <p>
+        {{ article[2] }}
+    </p>
+
+</div>
+
+{% endblock %}

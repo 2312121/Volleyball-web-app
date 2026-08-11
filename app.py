@@ -1,8 +1,10 @@
-import sqlite3
+import sqlite3, os
 
 from flask import Flask, render_template, g, session, redirect, url_for, request
 
 DATABASE = 'database.db'
+
+UPLOAD_FOLDER = "static/images"
 
 app = Flask(__name__)
 
@@ -191,33 +193,89 @@ def manage_news():
     if session.get("username") != "admin":
         return redirect(url_for("login"))
 
-    # If the admin submits the form
     if request.method == "POST":
 
         title = request.form["title"]
         category = request.form["category"]
         description = request.form["description"]
         content = request.form["content"]
-        image = request.form["image"]
 
+        # Get the uploaded image
+        image = request.files["image"]
+
+        # Save the image into static/images
+        image.save(
+            os.path.join(UPLOAD_FOLDER, image.filename)
+        )
+
+        # Save the article information into the database
         db = get_db()
 
-        db.execute("""INSERT INTO news (title, category, description, content, image)
+        db.execute("""
+            INSERT INTO news
+            (title, description, content, image, category)
             VALUES (?, ?, ?, ?, ?)
-        """, (
-            title,
-            category,
-            description,
-            content,
-            image
-        ))
+            """, (
+                title,
+                description,
+                content,
+                image.filename,
+                category
+            ))
 
         db.commit()
 
-        return redirect(url_for("manage_news"))
+        return redirect(url_for("admin"))
 
     return render_template("manage_news.html")
 
+
+@app.route("/news/<int:newsID>")
+def article(newsID):
+
+    cursor = get_db().cursor()
+    cursor.execute("SELECT * FROM news WHERE newsID = ?",(newsID,))
+
+    article = cursor.fetchone()
+
+    if article is None:
+        return render_template("404.html"), 404
+
+    return render_template(
+        "article.html",
+        article=article
+    )
+
+@app.route("/admin/players")
+def manage_players():
+
+    #Make sure only the admin can access this page
+    if session.get("username") != "admin":
+        return redirect(url_for("login"))
+
+    cursor = get_db().cursor()
+    cursor.execute("""
+        SELECT *
+        FROM players
+        JOIN teams ON players.teamID = teams.teamID""")
+
+    players = cursor.fetchall()
+
+    return render_template("manage_players.html", players=players)
+
+@app.route("/admin/player/delete/<int:playerID>", methods=["POST"])
+def delete_player(playerID):
+
+    #Make sure only the admin can delete players
+    if session.get("username") != "admin":
+        return redirect(url_for("login"))
+
+    db = get_db()
+    db.execute(
+        "DELETE FROM players WHERE playerID = ?",(playerID,))
+    db.commit()
+
+    return redirect(url_for("manage_players"))
 
 
 if __name__ == "__main__":
