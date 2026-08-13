@@ -1,6 +1,8 @@
 import sqlite3, os
 
 from flask import Flask, render_template, g, session, redirect, url_for, request
+from werkzeug.utils import secure_filename
+from datetime import datetime
 
 DATABASE = 'database.db'
 
@@ -127,13 +129,11 @@ def add_player():
         return redirect(url_for("login"))
 
     db = get_db()
-
     cursor = db.cursor()
 
     #Get the teams
     cursor.execute("SELECT teamID, teamname FROM teams")
     teams = cursor.fetchall()
-    
 
     if request.method == "POST":
 
@@ -143,12 +143,31 @@ def add_player():
         weight = request.form["weight"]
         teamID = request.form["teamID"]
 
-        playerimage = request.files["playerimage"]
+        #Get the uploaded image
+        playerimage = request.files.get("playerimage")
 
+        #Check that an image was selected
+        if not playerimage or playerimage.filename == "":
+            return render_template(
+                "add_player.html",
+                teams=teams,
+                error="Please select an image"
+            )
+
+        #Make the filename safe
+        safe_name = secure_filename(playerimage.filename)
+
+        #Add timestamp to the filename
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        filename = f"{timestamp}_{safe_name}"
+
+        #Save the image
         playerimage.save(
-            os.path.join("static/images", playerimage.filename)
+            os.path.join("static/images", filename)
         )
 
+        #Add player to database
         db.execute("""
             INSERT INTO players
             (teamID, playername, height, position, playerimage, weight)
@@ -158,7 +177,7 @@ def add_player():
             playername,
             height,
             position,
-            playerimage.filename,
+            filename,
             weight
         ))
 
@@ -166,18 +185,11 @@ def add_player():
 
         return redirect(url_for("admin"))
 
-    return render_template("add_player.html", teams=teams)
-
     #Send teams to the HTML page
-    return render_template("add_player.html", teams=teams)
-    
-
-    #Get teams for the dropdown
-    cursor = get_db().cursor()
-    cursor.execute("SELECT * FROM teams")
-    teams = cursor.fetchall()
-
-    return render_template("add_player.html", teams=teams)
+    return render_template(
+        "add_player.html",
+        teams=teams
+    )
 
 
 
@@ -207,6 +219,8 @@ def manage_results():
                 teams=teams,
                 error="A team cannot play against itself."
             )
+        
+
 
         #Get all five set scores
         set1_team1 = int(request.form["set1_team1"])
@@ -381,8 +395,26 @@ def manage_news():
         image = request.files["image"]
 
         #Save the image into static/images
-        image.save(
-            os.path.join("static/images", image.filename)
+        playerimage = request.files.get("playerimage")
+
+        if not playerimage or playerimage.filename == "":
+            return render_template(
+                "add_player.html",
+                teams=teams,
+                error="Please select an image"
+            )
+
+        # Make the filename safe
+        safe_name = secure_filename(playerimage.filename)
+
+        # Add timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        filename = f"{timestamp}_{safe_name}"
+
+        # Save the image
+        playerimage.save(
+            os.path.join("static/images", filename)
         )
 
         #Connect to the database
