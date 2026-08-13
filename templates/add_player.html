@@ -9,50 +9,44 @@
 
     <h1>Add Player</h1>
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
 
-        <label>Player Name</label>
-        <input type="text" name="playername" required>
+    <label>Player Name</label>
+    <input type="text" name="playername" required>
 
+    <label>Height</label>
+    <input type="text" name="height" required>
 
-        <label>Team</label>
+    <label>Position</label>
+    <input type="text" name="position" required>
 
-        <select name="teamID" required>
+    <label>Weight</label>
+    <input type="text" name="weight" required>
 
-            {% for team in teams %}
+    <label>Team</label>
 
-                <option value="{{ team[0] }}">
-                    {{ team[1] }}
-                </option>
+    <select name="teamID" required>
 
-            {% endfor %}
+    <option value="">Select a team</option>
 
-        </select>
+    {% for team in teams %}
 
+        <option value="{{ team[0] }}">
+            {{ team[1] }}
+        </option>
 
-        <label>Height</label>
-        <input type="text" name="height">
+    {% endfor %}
 
+    </select>
 
-        <label>Position</label>
-        <input type="text" name="position">
+    <label>Player Image</label>
+    <input type="file" name="playerimage" accept="image/*" required>
 
+    <button type="submit">
+        Add Player
+    </button>
 
-        <label>Player Image</label>
-        <input type="text"
-               name="playerimage"
-               placeholder="example.png">
-
-
-        <label>Weight</label>
-        <input type="text" name="weight">
-
-
-        <button type="submit">
-            Add Player
-        </button>
-
-    </form>
+</form>
 
 </div>
 

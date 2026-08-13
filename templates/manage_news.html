@@ -1,15 +1,16 @@
 {% extends "layout.html" %}
+
 {% block body %}
 
 <div class="admin-form">
 
     <a href="{{ url_for('admin') }}" class="back-button">
-    Back
+        Back
     </a>
 
     <h1>Add News Article</h1>
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
 
         <label>Article Title</label>
 
@@ -50,12 +51,12 @@
         ></textarea>
 
 
-        <label>Image Filename</label>
+        <label>Article Image</label>
 
         <input
-            type="text"
+            type="file"
             name="image"
-            placeholder="16-0.png"
+            accept="image/*"
             required
         >
 

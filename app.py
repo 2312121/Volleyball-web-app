@@ -10,8 +10,8 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "MySecretKey"
 
-# these are stored server side when hosted. But this is the LEAST secure login method
-# hard coded username and passwords to access the 'admin" part of the site 
+#These are stored server side when hosted. But this is the LEAST secure login method
+#Hard coded username and passwords to access the 'admin" part of the site 
 USERNAME = "admin"
 PASSWORD = "admin"
 
@@ -70,10 +70,13 @@ def player(playerID):
     return render_template("player.html", player=player)
 
 
+
 #error page
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
+
+
 
 #this route acccepts get AND posts
 @app.route('/login', methods=["GET","POST"])
@@ -96,9 +99,10 @@ def login():
     return render_template("login.html")
 
 
+
+
 @app.route("/admin")
 def admin():
-
 
     if session.get("username") != "admin":
         print("Not logged in")
@@ -107,41 +111,66 @@ def admin():
     return render_template("admin.html")
 
 
+
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for("login"))
 
+
+
 @app.route("/admin/player/add", methods=["GET", "POST"])
 def add_player():
 
-    #Make sure the user is logged in
     if session.get("username") != "admin":
         return redirect(url_for("login"))
+
+    db = get_db()
+
+    cursor = db.cursor()
+
+    #Get the teams
+    cursor.execute("SELECT teamID, teamname FROM teams")
+    teams = cursor.fetchall()
+    
 
     if request.method == "POST":
 
         playername = request.form["playername"]
-        teamID = request.form["teamID"]
         height = request.form["height"]
         position = request.form["position"]
-        playerimage = request.form["playerimage"]
         weight = request.form["weight"]
+        teamID = request.form["teamID"]
 
-        db = get_db()
+        playerimage = request.files["playerimage"]
 
-        db.execute("""INSERT INTO players (teamID, playername, height, position, playerimage, weight) 
-                   VALUES (?, ?, ?, ?, ?, ?)""", (
+        playerimage.save(
+            os.path.join("static/images", playerimage.filename)
+        )
+
+        db.execute("""
+            INSERT INTO players
+            (teamID, playername, height, position, playerimage, weight)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (
             teamID,
             playername,
             height,
             position,
-            playerimage,
-            weight,
+            playerimage.filename,
+            weight
         ))
 
         db.commit()
+
         return redirect(url_for("admin"))
+
+    return render_template("add_player.html", teams=teams)
+
+    #Send teams to the HTML page
+    return render_template("add_player.html", teams=teams)
+    
 
     #Get teams for the dropdown
     cursor = get_db().cursor()
@@ -155,79 +184,232 @@ def add_player():
 @app.route("/admin/results", methods=["GET", "POST"])
 def manage_results():
 
-    #Make sure only the admin can access this
     if session.get("username") != "admin":
         return redirect(url_for("login"))
 
-    if request.method == "POST":
+    db = get_db()
+    cursor = db.cursor()
 
-        homeTeam = request.form["homeTeam"]
-        awayTeam = request.form["awayTeam"]
-        homeSets = request.form["homeSets"]
-        awaySets = request.form["awaySets"]
-
-        db = get_db()
-
-        db.execute("""
-            INSERT INTO matches
-            (homeTeam, awayTeam, homeSets, awaySets)
-            VALUES (?, ?, ?, ?)
-        """, (homeTeam, awayTeam, homeSets, awaySets))
-
-        db.commit()
-
-        return redirect(url_for("manage_results"))
-
-    #Get all teams for the dropdown menus
-    cursor = get_db().cursor()
-    cursor.execute("SELECT * FROM teams")
+    #Get teams for the dropdown menus
+    cursor.execute("SELECT teamID, teamname FROM teams")
     teams = cursor.fetchall()
 
+    if request.method == "POST":
+
+        team1 = request.form["team1"]
+        team2 = request.form["team2"]
+
+        #Make sure the teams aren't the same
+        if team1 == team2:
+
+            return render_template(
+                "manage_results.html",
+                teams=teams,
+                error="A team cannot play against itself."
+            )
+
+        #Get all five set scores
+        set1_team1 = int(request.form["set1_team1"])
+        set1_team2 = int(request.form["set1_team2"])
+
+        set2_team1 = int(request.form["set2_team1"])
+        set2_team2 = int(request.form["set2_team2"])
+
+        set3_team1 = int(request.form["set3_team1"])
+        set3_team2 = int(request.form["set3_team2"])
+
+        #Sets 4 and 5 are optional
+        set4_team1 = request.form.get("set4_team1")
+        set4_team2 = request.form.get("set4_team2")
+
+        set5_team1 = request.form.get("set5_team1")
+        set5_team2 = request.form.get("set5_team2")
+
+
+        #Convert optional scores into integers
+        if set4_team1 != "" and set4_team2 != "":
+            set4_team1 = int(set4_team1)
+            set4_team2 = int(set4_team2)
+        else:
+            set4_team1 = None
+            set4_team2 = None
+
+
+        if set5_team1 != "" and set5_team2 != "":
+            set5_team1 = int(set5_team1)
+            set5_team2 = int(set5_team2)
+        else:
+            set5_team1 = None
+            set5_team2 = None
+
+
+        #Store all scores in a list
+        sets = [
+            (set1_team1, set1_team2),
+            (set2_team1, set2_team2),
+            (set3_team1, set3_team2)
+        ]
+
+        if set4_team1 is not None:
+            sets.append((set4_team1, set4_team2))
+
+        if set5_team1 is not None:
+            sets.append((set5_team1, set5_team2))
+
+
+        #Count how many sets each team won
+        team1_sets = 0
+        team2_sets = 0
+
+        #Add up all the total points
+        team1_points = 0
+        team2_points = 0
+
+
+        for score1, score2 in sets:
+
+            team1_points += score1
+            team2_points += score2
+
+            if score1 > score2:
+                team1_sets += 1
+
+            elif score2 > score1:
+                team2_sets += 1
+
+
+        #Make sure there is a winner of the match 
+        if team1_sets == team2_sets:
+
+            return render_template(
+                "manage_results.html",
+                teams=teams,
+                error="The match must have a winner."
+            )
+
+
+        #Team 1 won
+        if team1_sets > team2_sets:
+
+            winner = team1
+            loser = team2
+
+        #Team 2 won
+        else:
+
+            winner = team2
+            loser = team1
+
+
+        #Add points for Team 1
+        db.execute("""
+            UPDATE teams
+
+            SET "for" = "for" + ?,
+                against = against + ?
+
+            WHERE teamID = ?
+        """, (
+            team1_points,
+            team2_points,
+            team1
+        ))
+
+
+        #Add points for Team 2
+        db.execute("""
+            UPDATE teams
+
+            SET "for" = "for" + ?,
+                against = against + ?
+
+            WHERE teamID = ?
+        """, (
+            team2_points,
+            team1_points,
+            team2
+        ))
+
+
+        #Add one win to the winner
+        db.execute("""
+            UPDATE teams
+
+            SET wins = wins + 1
+
+            WHERE teamID = ?
+        """, (winner,))
+
+
+        #Add one loss to the loser
+        db.execute("""
+            UPDATE teams
+
+            SET loses = loses + 1
+
+            WHERE teamID = ?
+        """, (loser,))
+
+
+        #Save everything
+        db.commit()
+
+        return redirect(url_for("admin"))
+
+
     return render_template("manage_results.html", teams=teams)
+
 
 
 @app.route("/admin/news", methods=["GET", "POST"])
 def manage_news():
 
-    # Only allow the admin to access this page
+    #Make sure only the admin can access this page
     if session.get("username") != "admin":
         return redirect(url_for("login"))
 
+    #If the form was submitted
     if request.method == "POST":
 
+        #Get the text from the form
         title = request.form["title"]
-        category = request.form["category"]
         description = request.form["description"]
         content = request.form["content"]
+        category = request.form["category"]
 
-        # Get the uploaded image
+        #Get the uploaded image
         image = request.files["image"]
 
-        # Save the image into static/images
+        #Save the image into static/images
         image.save(
-            os.path.join(UPLOAD_FOLDER, image.filename)
+            os.path.join("static/images", image.filename)
         )
 
-        # Save the article information into the database
+        #Connect to the database
         db = get_db()
 
+        #Add the article information to the news table
         db.execute("""
             INSERT INTO news
             (title, description, content, image, category)
             VALUES (?, ?, ?, ?, ?)
-            """, (
-                title,
-                description,
-                content,
-                image.filename,
-                category
-            ))
+        """, (
+            title,
+            description,
+            content,
+            image.filename,
+            category
+        ))
 
+        #Save the changes to the database
         db.commit()
 
+        #Go back to the admin page
         return redirect(url_for("admin"))
 
+    #Show the form
     return render_template("manage_news.html")
+
 
 
 @app.route("/news/<int:newsID>")
@@ -246,6 +428,8 @@ def article(newsID):
         article=article
     )
 
+
+
 @app.route("/admin/players")
 def manage_players():
 
@@ -263,6 +447,8 @@ def manage_players():
 
     return render_template("manage_players.html", players=players)
 
+
+
 @app.route("/admin/player/delete/<int:playerID>", methods=["POST"])
 def delete_player(playerID):
 
@@ -276,6 +462,50 @@ def delete_player(playerID):
     db.commit()
 
     return redirect(url_for("manage_players"))
+
+
+
+@app.route("/admin/articles")
+def manage_articles():
+
+    #Only allow the admin
+    if session.get("username") != "admin":
+        return redirect(url_for("login"))
+
+    cursor = get_db().cursor()
+
+    cursor.execute("""
+        SELECT *
+        FROM news
+        ORDER BY newsID DESC
+    """)
+
+    articles = cursor.fetchall()
+
+    return render_template(
+        "manage_articles.html",
+        articles=articles
+    )
+
+@app.route("/admin/article/delete/<int:newsID>", methods=["POST"])
+def delete_article(newsID):
+
+    #Only allow logged-in admin
+    if session.get("username") != "admin":
+        return redirect(url_for("login"))
+
+    db = get_db()
+
+    #Delete the article from the database
+    db.execute(
+        "DELETE FROM news WHERE newsID = ?",
+        (newsID,)
+    )
+
+    #Save the change
+    db.commit()
+
+    return redirect(url_for("manage_articles"))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="admin-form">
+
+    <a href="{{ url_for('admin') }}" class="back-button">
+        Back
+    </a>
+
+    <h1>Remove Articles</h1>
+
+    {% for article in articles %}
+
+    <div class="delete-row">
+
+        <div>
+            <strong>{{ article[1] }}</strong>
+            <br>
+            <small>{{ article[5] }}</small>
+        </div>
+
+        <form method="POST"
+              action="{{ url_for('delete_article', newsID=article[0]) }}">
+
+            <button
+                type="submit"
+                class="delete-button"
+                onclick="return confirm('Are you sure you want to delete this article?');">
+
+                Delete
+
+            </button>
+
+        </form>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

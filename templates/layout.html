@@ -18,8 +18,9 @@
     <br>
     <a href="{{url_for('ladder')}}">Ladder</a>
     <br>
+    {% if session["username"] != "admin" %}
     <a href="{{url_for('login')}}">Login</a>
-    <br>
+    {% endif %}
     {% if session["username"] == "admin" %}
     <a href="{{url_for('admin')}}">Admin</a>
     {% endif %}

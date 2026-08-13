@@ -1,66 +1,185 @@
 {% extends "layout.html" %}
+
 {% block body %}
 
 <div class="admin-form">
 
     <a href="{{ url_for('admin') }}" class="back-button">
-    Back
+        Back
     </a>
 
     <h1>Add Match Result</h1>
 
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
     <form method="POST">
 
-        <label>Home Team</label>
+        <label>Team 1</label>
 
-        <select name="homeTeam" required>
+        <select name="team1" id="team1" required>
+
+            <option value="">Select team</option>
+
             {% for team in teams %}
+
                 <option value="{{ team[0] }}">
                     {{ team[1] }}
                 </option>
+
             {% endfor %}
+
         </select>
 
 
-        <label>Away Team</label>
+        <label>Team 2</label>
 
-        <select name="awayTeam" required>
+        <select name="team2" id="team2" required>
+
+            <option value="">Select team</option>
+
             {% for team in teams %}
+
                 <option value="{{ team[0] }}">
                     {{ team[1] }}
                 </option>
+
             {% endfor %}
+
         </select>
 
 
-        <label>Home Team Sets</label>
-
-        <input
-            type="number"
-            name="homeSets"
-            min="0"
-            max="3"
-            required
-        >
+        <h2>Set Scores</h2>
 
 
-        <label>Away Team Sets</label>
+        <label>Set 1</label>
 
-        <input
-            type="number"
-            name="awaySets"
-            min="0"
-            max="3"
-            required
-        >
+        <div class="set-score">
+
+            <input
+                type="number"
+                name="set1_team1"
+                min="0"
+                placeholder="Team 1"
+                required
+            >
+
+            <span>-</span>
+
+            <input
+                type="number"
+                name="set1_team2"
+                min="0"
+                placeholder="Team 2"
+                required
+            >
+
+        </div>
+
+
+        <label>Set 2</label>
+
+        <div class="set-score">
+
+            <input
+                type="number"
+                name="set2_team1"
+                min="0"
+                placeholder="Team 1"
+                required
+            >
+
+            <span>-</span>
+
+            <input
+                type="number"
+                name="set2_team2"
+                min="0"
+                placeholder="Team 2"
+                required
+            >
+
+        </div>
+
+
+        <label>Set 3</label>
+
+        <div class="set-score">
+
+            <input
+                type="number"
+                name="set3_team1"
+                min="0"
+                placeholder="Team 1"
+                required
+            >
+
+            <span>-</span>
+
+            <input
+                type="number"
+                name="set3_team2"
+                min="0"
+                placeholder="Team 2"
+                required
+            >
+
+        </div>
+
+
+        <label>Set 4</label>
+
+        <div class="set-score">
+
+            <input
+                type="number"
+                name="set4_team1"
+                min="0"
+                placeholder="Team 1"
+            >
+
+            <span>-</span>
+
+            <input
+                type="number"
+                name="set4_team2"
+                min="0"
+                placeholder="Team 2"
+            >
+
+        </div>
+
+
+        <label>Set 5</label>
+
+        <div class="set-score">
+
+            <input
+                type="number"
+                name="set5_team1"
+                min="0"
+                placeholder="Team 1"
+            >
+
+            <span>-</span>
+
+            <input
+                type="number"
+                name="set5_team2"
+                min="0"
+                placeholder="Team 2"
+            >
+
+        </div>
 
 
         <button type="submit">
-            Add Result
+            Add Match Result
         </button>
 
     </form>
 
 </div>
 
-{% endblock %}f
+{% endblock %}

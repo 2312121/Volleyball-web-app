@@ -14,22 +14,27 @@
 
     <div class="delete-row">
 
-        <div>
-            <strong>{{ player[2] }}</strong>
-            <br>
-            <small>{{ player[8] }}</small>
-        </div>
-
-        <form method="POST"
-              action="{{ url_for('delete_player', playerID=player[0]) }}">
-
-            <button type="submit" class="delete-button">
-                Delete
-            </button>
-
-        </form>
-
+    <div>
+        <strong>{{ player[2] }}</strong>
+        <br>
+        <small>{{ player[8] }}</small>
     </div>
+
+    <form method="POST"
+          action="{{ url_for('delete_player', playerID=player[0]) }}">
+
+        <button
+            type="submit"
+            class="delete-button"
+            onclick="return confirm('Are you sure you want to delete this player?');">
+
+            Delete
+
+        </button>
+
+    </form>
+    </div>
+
 
     {% endfor %}
 
