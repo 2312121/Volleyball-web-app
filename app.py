@@ -385,6 +385,8 @@ def manage_news():
     #If the form was submitted
     if request.method == "POST":
 
+        db = get_db()
+
         #Get the text from the form
         title = request.form["title"]
         description = request.form["description"]
@@ -392,33 +394,27 @@ def manage_news():
         category = request.form["category"]
 
         #Get the uploaded image
-        image = request.files["image"]
+        image = request.files.get("image")
 
-        #Save the image into static/images
-        playerimage = request.files.get("playerimage")
-
-        if not playerimage or playerimage.filename == "":
+        #Check that an image was selected
+        if not image or image.filename == "":
             return render_template(
-                "add_player.html",
-                teams=teams,
+                "manage_news.html",
                 error="Please select an image"
             )
 
-        # Make the filename safe
-        safe_name = secure_filename(playerimage.filename)
+        #Make the filename safe
+        safe_name = secure_filename(image.filename)
 
-        # Add timestamp
+        #Add timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         filename = f"{timestamp}_{safe_name}"
 
-        # Save the image
-        playerimage.save(
+        #Save the image
+        image.save(
             os.path.join("static/images", filename)
         )
-
-        #Connect to the database
-        db = get_db()
 
         #Add the article information to the news table
         db.execute("""
@@ -429,7 +425,7 @@ def manage_news():
             title,
             description,
             content,
-            image.filename,
+            filename,
             category
         ))
 
@@ -439,7 +435,7 @@ def manage_news():
         #Go back to the admin page
         return redirect(url_for("admin"))
 
-    #Show the form
+    #Show the news form
     return render_template("manage_news.html")
 
 
