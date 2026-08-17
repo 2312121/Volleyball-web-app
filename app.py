@@ -33,7 +33,8 @@ def close_connection(exception):
 @app.route("/")
 def home():
 
-    cursor = get_db().cursor()
+    db = get_db()
+    cursor = db.cursor()
     cursor.execute("""SELECT * FROM news ORDER BY newsID DESC LIMIT 1""")
 
     article = cursor.fetchone()
@@ -45,7 +46,8 @@ def home():
 @app.route("/players")
 def players():
     #Do query get results back send to template
-    cursor = get_db().cursor()
+    db = get_db()
+    cursor = db.cursor()
     cursor.execute("SELECT * FROM players JOIN teams ON players.teamID=teams.teamID ORDER BY weight DESC")
     results = cursor.fetchall()
     return render_template("players.html", results = results)
@@ -53,7 +55,8 @@ def players():
 #links my ladder page to my python and creates the ladder table
 @app.route("/ladder")
 def ladder():
-    cursor = get_db().cursor()
+    db = get_db()
+    cursor = db.cursor()
     cursor.execute("""SELECT * FROM teams ORDER BY wins DESC, ("for" - against) DESC """)
     results = cursor.fetchall()
     print(results)
@@ -63,7 +66,8 @@ def ladder():
 @app.route("/player/<int:playerID>")
 def player(playerID):
 
-    cursor = get_db().cursor()
+    db = get_db()
+    cursor = db.cursor()
 
     cursor.execute("""
         SELECT * FROM players JOIN teams ON players.teamID = teams.teamID WHERE playerID = ? """, (playerID,))
@@ -443,7 +447,8 @@ def manage_news():
 @app.route("/news/<int:newsID>")
 def article(newsID):
 
-    cursor = get_db().cursor()
+    db = get_db()
+    cursor = db.cursor()
     cursor.execute("SELECT * FROM news WHERE newsID = ?",(newsID,))
 
     article = cursor.fetchone()
@@ -465,7 +470,8 @@ def manage_players():
     if session.get("username") != "admin":
         return redirect(url_for("login"))
 
-    cursor = get_db().cursor()
+    db = get_db()
+    cursor = db.cursor()
     cursor.execute("""
         SELECT *
         FROM players
@@ -500,7 +506,8 @@ def manage_articles():
     if session.get("username") != "admin":
         return redirect(url_for("login"))
 
-    cursor = get_db().cursor()
+    db = get_db()
+    cursor = db.cursor()
 
     cursor.execute("""
         SELECT *
